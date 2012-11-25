@@ -1,23 +1,28 @@
 package me.anxuiz.settings;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 
 
 public interface SettingManager {
-    boolean hasValue(Setting setting);
+    boolean hasValue(@Nonnull Setting setting);
 
-    @Nullable Object getValue(Setting setting);
+    @Nullable Object getRawValue(@Nonnull Setting setting);
 
-    Object getValue(Setting setting, Object defaultValue) throws IllegalArgumentException;
+    @Nonnull Object getValue(@Nonnull Setting setting);
 
-    <T> T getValue(Setting setting, Class<T> typeClass) throws IllegalArgumentException;
+    @Nonnull Object getValue(@Nonnull Setting setting, @Nonnull Object defaultValue) throws IllegalArgumentException;
 
-    <T> T getValue(Setting setting, Class<T> typeClass, T defaultValue) throws IllegalArgumentException;
+    @Nullable <T> T getRawValue(@Nonnull Setting setting, @Nonnull Class<T> typeClass) throws IllegalArgumentException;
 
-    void setValue(Setting setting, Object value);
+    @Nonnull <T> T getValue(@Nonnull Setting setting, @Nonnull Class<T> typeClass) throws IllegalArgumentException;
 
-    void deleteValue(Setting setting);
+    @Nonnull <T> T getValue(@Nonnull Setting setting, @Nonnull Class<T> typeClass, @Nonnull T defaultValue) throws IllegalArgumentException;
 
-    SettingCallbackManager getCallbackManager();
+    void setValue(@Nonnull Setting setting, @Nonnull Object value);
+
+    void deleteValue(@Nonnull Setting setting);
+
+    @Nonnull SettingCallbackManager getCallbackManager();
 }
