@@ -28,16 +28,16 @@ public class BooleanType implements Type, Toggleable {
     public Object parse(String raw) throws TypeParseException {
         raw = raw.toLowerCase().trim();
         if(raw.equals("on") || raw.equals("true") || raw.equals("yes")) {
-            return new Boolean(true);
+            return Boolean.valueOf(true);
         } else if (raw.equals("off") || raw.equals("false") || raw.equals("no")) {
-            return new Boolean(false);
+            return Boolean.valueOf(false);
         } else {
             throw new TypeParseException();
         }
     }
 
     public Object getNextState(Object previous) throws IllegalArgumentException {
-        boolean value = TypeUtil.getValue(previous, Boolean.class);
-        return new Boolean(!value);
+        Boolean value = TypeUtil.getValue(previous, Boolean.class);
+        return Boolean.valueOf(!value);
     }
 }
