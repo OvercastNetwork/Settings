@@ -53,6 +53,10 @@ public class SimpleSetting implements Setting {
         return this.summary;
     }
 
+    public boolean hasDescription() {
+        return this.description != null;
+    }
+
     public @Nonnull String getDescription() {
         if(this.description != null) {
             return this.description;

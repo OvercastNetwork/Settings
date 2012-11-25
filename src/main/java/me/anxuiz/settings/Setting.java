@@ -14,6 +14,8 @@ public interface Setting {
 
     @Nonnull String getSummary();
 
+    boolean hasDescription();
+
     @Nonnull String getDescription();
 
     @Nonnull Type getType();
