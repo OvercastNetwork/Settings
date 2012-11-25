@@ -2,6 +2,7 @@ package me.anxuiz.settings.base;
 
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import me.anxuiz.settings.Setting;
@@ -11,22 +12,22 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSortedSet;
 
 public class SimpleSetting implements Setting {
-    protected final String name;
-    protected final Set<String> aliases;
-    protected final Class<?> scope;
-    protected final String summary;
-    protected final String description;
+    protected final @Nonnull String name;
+    protected final @Nonnull Set<String> aliases;
+    protected final @Nullable Class<?> scope;
+    protected final @Nonnull String summary;
+    protected final @Nonnull String description;
 
-    protected final Type type;
-    protected Object defaultValue;
+    protected final @Nonnull Type type;
+    protected @Nonnull Object defaultValue;
 
-    public SimpleSetting(String name,
-            Set<String> aliases,
-            Class<?> scope,
-            String summary,
+    public SimpleSetting(@Nonnull String name,
+            @Nonnull Set<String> aliases,
+            @Nullable Class<?> scope,
+            @Nonnull String summary,
             @Nullable String description,
-            Type type,
-            Object defaultValue) {
+            @Nonnull Type type,
+            @Nonnull Object defaultValue) {
         this.name = name;
         this.aliases = ImmutableSortedSet.copyOf(aliases);
         this.scope = scope;
@@ -36,23 +37,23 @@ public class SimpleSetting implements Setting {
         this.defaultValue = defaultValue;
     }
 
-    public String getName() {
+    public @Nonnull String getName() {
         return this.name;
     }
 
-    public Set<String> getAliases() {
+    public @Nonnull Set<String> getAliases() {
         return this.aliases;
     }
 
-    public Class<?> getScope() {
+    public @Nullable Class<?> getScope() {
         return this.scope;
     }
 
-    public String getSummary() {
+    public @Nonnull String getSummary() {
         return this.summary;
     }
 
-    public String getDescription() {
+    public @Nonnull String getDescription() {
         if(this.description != null) {
             return this.description;
         } else {
@@ -60,15 +61,15 @@ public class SimpleSetting implements Setting {
         }
     }
 
-    public Type getType() {
+    public @Nonnull Type getType() {
         return this.type;
     }
 
-    public Object getDefaultValue() {
+    public @Nonnull Object getDefaultValue() {
         return this.defaultValue;
     }
 
-    public void setDefaultValue(Object newDefault) throws IllegalArgumentException {
+    public void setDefaultValue(@Nonnull Object newDefault) throws IllegalArgumentException {
         Preconditions.checkNotNull(newDefault);
         Preconditions.checkArgument(this.type.isInstance(newDefault));
 
@@ -78,7 +79,7 @@ public class SimpleSetting implements Setting {
     }
 
     @Override
-    public String toString() {
+    public @Nonnull String toString() {
         return "SimpleSetting{name='" + this.name + "',type='" + this.type.getName() + "'}";
     }
 }

@@ -42,8 +42,7 @@ public class SettingBuilder {
         return this;
     }
 
-    public @Nonnull SettingBuilder scope(@Nonnull Class<?> scope) {
-        Preconditions.checkNotNull(scope, "scope");
+    public @Nonnull SettingBuilder scope(@Nullable Class<?> scope) {
         this.scope = scope;
         return this;
     }
@@ -79,7 +78,6 @@ public class SettingBuilder {
 
     public @Nonnull Setting get() throws IllegalStateException {
         Preconditions.checkState(this.name != null, "setting must have name");
-        Preconditions.checkState(this.scope != null, "setting must have scope");
         Preconditions.checkState(this.summary != null, "setting must have summary");
         Preconditions.checkState(this.type != null, "setting must have type");
         Preconditions.checkState(this.defaultValue != null, "setting must have a default value");

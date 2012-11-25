@@ -3,13 +3,14 @@ package me.anxuiz.settings;
 import java.util.Collection;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface Setting {
     @Nonnull String getName();
 
     @Nonnull Collection<String> getAliases();
 
-    @Nonnull Class<?> getScope();
+    @Nullable Class<?> getScope();
 
     @Nonnull String getSummary();
 
