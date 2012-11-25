@@ -2,20 +2,22 @@ package me.anxuiz.settings;
 
 import java.util.Collection;
 
+import javax.annotation.Nonnull;
+
 public interface Setting {
-    String getName();
+    @Nonnull String getName();
 
-    Collection<String> getAliases();
+    @Nonnull Collection<String> getAliases();
 
-    Class<?> getScope();
+    @Nonnull Class<?> getScope();
 
-    String getSummary();
+    @Nonnull String getSummary();
 
-    String getDescription();
+    @Nonnull String getDescription();
 
-    Type getType();
+    @Nonnull Type getType();
 
-    Object getDefaultValue();
+    @Nonnull Object getDefaultValue();
 
-    void setDefaultValue(Object newDefault) throws IllegalArgumentException;
+    void setDefaultValue(@Nonnull Object newDefault) throws IllegalArgumentException;
 }
