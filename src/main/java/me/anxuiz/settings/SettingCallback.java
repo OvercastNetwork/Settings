@@ -1,5 +1,7 @@
 package me.anxuiz.settings;
 
+import javax.annotation.Nonnull;
+
 public interface SettingCallback {
-    void notifyChange(SettingManager manager, Setting setting, Object oldValue, Object newValue);
+    void notifyChange(@Nonnull SettingManager manager, @Nonnull Setting setting, @Nonnull Object oldValue, @Nonnull Object newValue);
 }

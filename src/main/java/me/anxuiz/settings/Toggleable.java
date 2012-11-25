@@ -1,5 +1,7 @@
 package me.anxuiz.settings;
 
+import javax.annotation.Nonnull;
+
 public interface Toggleable {
-    Object getNextState(Object previous) throws IllegalArgumentException;
+    @Nonnull Object getNextState(@Nonnull Object previous) throws IllegalArgumentException;
 }

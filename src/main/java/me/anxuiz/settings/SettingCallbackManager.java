@@ -2,18 +2,20 @@ package me.anxuiz.settings;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public interface SettingCallbackManager {
-    List<SettingCallback> getCallbacks(Setting setting);
+    @Nonnull List<SettingCallback> getCallbacks(@Nonnull Setting setting);
 
-    int getNumCallbacks(Setting setting);
+    int getNumCallbacks(@Nonnull Setting setting);
 
-    boolean hasCallbacks(Setting setting);
+    boolean hasCallbacks(@Nonnull Setting setting);
 
-    boolean addCallback(Setting setting, SettingCallback callback);
+    boolean addCallback(@Nonnull Setting setting, @Nonnull SettingCallback callback);
 
-    int clearCallbacks(Setting setting);
+    int clearCallbacks(@Nonnull Setting setting);
 
-    boolean removeCallback(Setting setting, SettingCallback callback);
+    boolean removeCallback(@Nonnull Setting setting, @Nonnull SettingCallback callback);
 
-    int notifyChange(SettingManager mananger, Setting setting, Object oldValue, Object newValue);
+    int notifyChange(@Nonnull SettingManager mananger, @Nonnull Setting setting, @Nonnull Object oldValue, @Nonnull Object newValue);
 }

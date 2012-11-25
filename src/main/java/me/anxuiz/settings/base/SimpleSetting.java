@@ -16,7 +16,7 @@ public class SimpleSetting implements Setting {
     protected final @Nonnull Set<String> aliases;
     protected final @Nullable Class<?> scope;
     protected final @Nonnull String summary;
-    protected final @Nonnull String description;
+    protected final @Nullable String description;
 
     protected final @Nonnull Type type;
     protected @Nonnull Object defaultValue;

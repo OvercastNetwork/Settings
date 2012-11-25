@@ -1,13 +1,15 @@
 package me.anxuiz.settings;
 
+import javax.annotation.Nonnull;
+
 public interface Type {
-    String getName();
+    @Nonnull String getName();
 
-    boolean isInstance(Object obj);
+    boolean isInstance(@Nonnull Object obj);
 
-    String print(Object obj) throws IllegalArgumentException;
+    @Nonnull String print(@Nonnull Object obj) throws IllegalArgumentException;
 
-    String serialize(Object obj) throws IllegalArgumentException;
+    @Nonnull String serialize(@Nonnull Object obj) throws IllegalArgumentException;
 
-    Object parse(String raw) throws TypeParseException;
+    @Nonnull Object parse(@Nonnull String raw) throws TypeParseException;
 }
