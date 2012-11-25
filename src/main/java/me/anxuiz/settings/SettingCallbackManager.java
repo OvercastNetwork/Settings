@@ -14,4 +14,6 @@ public interface SettingCallbackManager {
     int clearCallbacks(Setting setting);
 
     boolean removeCallback(Setting setting, SettingCallback callback);
+
+    int notifyChange(SettingManager mananger, Setting setting, Object oldValue, Object newValue);
 }

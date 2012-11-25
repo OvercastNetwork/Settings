@@ -1,5 +1,5 @@
 package me.anxuiz.settings;
 
 public interface SettingCallback {
-    void notifyChange(Setting setting, Object oldValue, Object newValue);
+    void notifyChange(SettingManager manager, Setting setting, Object oldValue, Object newValue);
 }
