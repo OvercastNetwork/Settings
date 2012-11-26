@@ -69,4 +69,8 @@ public abstract class AbstractSettingManager implements SettingManager {
             return defaultValue;
         }
     }
+
+    public void setValue(Setting setting, Object value) {
+        this.setValue(setting, value, true);
+    }
 }

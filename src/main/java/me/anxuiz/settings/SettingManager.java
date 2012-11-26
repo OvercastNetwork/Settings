@@ -22,6 +22,8 @@ public interface SettingManager {
 
     void setValue(@Nonnull Setting setting, @Nonnull Object value);
 
+    void setValue(@Nonnull Setting setting, @Nonnull Object value, boolean notifyGlobal);
+
     void deleteValue(@Nonnull Setting setting);
 
     @Nonnull SettingCallbackManager getCallbackManager();
