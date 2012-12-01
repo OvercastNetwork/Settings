@@ -14,7 +14,6 @@ import com.google.common.collect.ImmutableSortedSet;
 public class SimpleSetting implements Setting {
     protected final @Nonnull String name;
     protected final @Nonnull Set<String> aliases;
-    protected final @Nullable Class<?> scope;
     protected final @Nonnull String summary;
     protected final @Nullable String description;
 
@@ -23,14 +22,12 @@ public class SimpleSetting implements Setting {
 
     public SimpleSetting(@Nonnull String name,
             @Nonnull Set<String> aliases,
-            @Nullable Class<?> scope,
             @Nonnull String summary,
             @Nullable String description,
             @Nonnull Type type,
             @Nonnull Object defaultValue) {
         this.name = name;
         this.aliases = ImmutableSortedSet.copyOf(aliases);
-        this.scope = scope;
         this.summary = summary;
         this.description = description;
         this.type = type;
@@ -43,10 +40,6 @@ public class SimpleSetting implements Setting {
 
     public @Nonnull Set<String> getAliases() {
         return this.aliases;
-    }
-
-    public @Nullable Class<?> getScope() {
-        return this.scope;
     }
 
     public @Nonnull String getSummary() {

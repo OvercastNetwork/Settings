@@ -14,7 +14,6 @@ import com.google.common.collect.Sets;
 public class SettingBuilder {
     protected @Nullable String name = null;
     protected final Set<String> aliases = Sets.newLinkedHashSet();
-    protected @Nullable Class<?> scope = null;
     protected @Nullable String summary = null;
     protected @Nullable String description = null;
     protected @Nullable Type type = null;
@@ -39,11 +38,6 @@ public class SettingBuilder {
         Preconditions.checkNotNull(aliases, "aliases");
         this.aliases.clear();
         this.aliases.addAll(aliases);
-        return this;
-    }
-
-    public @Nonnull SettingBuilder scope(@Nullable Class<?> scope) {
-        this.scope = scope;
         return this;
     }
 
@@ -82,6 +76,6 @@ public class SettingBuilder {
         Preconditions.checkState(this.type != null, "setting must have type");
         Preconditions.checkState(this.defaultValue != null, "setting must have a default value");
 
-        return new SimpleSetting(this.name, this.aliases, this.scope, this.summary, this.description, this.type, this.defaultValue);
+        return new SimpleSetting(this.name, this.aliases, this.summary, this.description, this.type, this.defaultValue);
     }
 }
