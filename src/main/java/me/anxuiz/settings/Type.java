@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 public interface Type {
     @Nonnull String getName();
 
-    boolean isInstance(@Nonnull Object obj);
+    boolean isInstance(Object obj);
 
     @Nonnull String print(@Nonnull Object obj) throws IllegalArgumentException;
 
