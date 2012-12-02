@@ -18,6 +18,4 @@ public interface Setting {
     @Nonnull Type getType();
 
     @Nonnull Object getDefaultValue();
-
-    void setDefaultValue(@Nonnull Object newDefault) throws IllegalArgumentException;
 }

@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.Type;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSortedSet;
 
 public class SimpleSetting implements Setting {
@@ -18,7 +17,7 @@ public class SimpleSetting implements Setting {
     protected final @Nullable String description;
 
     protected final @Nonnull Type type;
-    protected @Nonnull Object defaultValue;
+    protected final @Nonnull Object defaultValue;
 
     public SimpleSetting(@Nonnull String name,
             @Nonnull Set<String> aliases,
@@ -64,15 +63,6 @@ public class SimpleSetting implements Setting {
 
     public @Nonnull Object getDefaultValue() {
         return this.defaultValue;
-    }
-
-    public void setDefaultValue(@Nonnull Object newDefault) throws IllegalArgumentException {
-        Preconditions.checkNotNull(newDefault);
-        Preconditions.checkArgument(this.type.isInstance(newDefault));
-
-        synchronized(this) {
-            this.defaultValue = newDefault;
-        }
     }
 
     @Override
