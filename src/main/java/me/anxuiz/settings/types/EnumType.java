@@ -4,11 +4,13 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import me.anxuiz.settings.Toggleable;
 import me.anxuiz.settings.Type;
 import me.anxuiz.settings.TypeParseException;
+import me.anxuiz.settings.util.TypePreconditions;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
@@ -17,11 +19,11 @@ import com.google.common.collect.ImmutableBiMap;
 
 @SuppressWarnings("rawtypes")
 public class EnumType<T extends Enum> implements Type, Toggleable {
-    private final String name;
-    private final Class<T> enumClass;
-    private final BiMap<T, String> nameMapping;
+    private final @Nonnull String name;
+    private final @Nonnull Class<T> enumClass;
+    private final @Nonnull BiMap<T, String> nameMapping;
 
-    public EnumType(String name, Class<T> enumClass) {
+    public EnumType(@Nonnull String name, @Nonnull Class<T> enumClass) {
         Preconditions.checkNotNull(name, "name may not be null");
         Preconditions.checkNotNull(enumClass, "enum may not be null");
         Preconditions.checkArgument(enumClass.isEnum(), "enum must be enum");
@@ -49,7 +51,7 @@ public class EnumType<T extends Enum> implements Type, Toggleable {
     }
 
     public String getName() {
-        return this.name;
+        return "Enum of " + this.name;
     }
 
     public boolean isInstance(Object obj) {
@@ -57,7 +59,7 @@ public class EnumType<T extends Enum> implements Type, Toggleable {
     }
 
     public String print(Object obj) throws IllegalArgumentException {
-        Preconditions.checkNotNull(obj, "object may not be null");
+        TypePreconditions.checkInstance(this, obj);
 
         String name = this.nameMapping.get(obj);
         if(name == null) {
@@ -68,7 +70,7 @@ public class EnumType<T extends Enum> implements Type, Toggleable {
     }
 
     public String serialize(Object obj) throws IllegalArgumentException {
-        Preconditions.checkNotNull(obj, "object may not be null");
+        TypePreconditions.checkInstance(this, obj);
 
         return obj.toString();
     }
@@ -95,7 +97,7 @@ public class EnumType<T extends Enum> implements Type, Toggleable {
     }
 
     public Object getNextState(Object previous) throws IllegalArgumentException {
-        Preconditions.checkNotNull(previous, "previous may not be null");
+        TypePreconditions.checkInstance(this, previous);
 
         T[] constants = this.enumClass.getEnumConstants();
 
