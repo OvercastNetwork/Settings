@@ -2,17 +2,21 @@ package me.anxuiz.settings.base;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingCallback;
 import me.anxuiz.settings.SettingManager;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimaps;
+import com.google.common.collect.SetMultimap;
 
 public class SimpleSettingCallbackManager extends AbstractSettingCallbackManager {
     protected final SetMultimap<Setting, SettingCallback> callbacks = Multimaps.synchronizedSetMultimap(LinkedHashMultimap.<Setting, SettingCallback>create());
-    protected final Set<SettingCallback> globalCallbacks = Sets.newCopyOnWriteArraySet();
+    protected final Set<SettingCallback> globalCallbacks = new CopyOnWriteArraySet<SettingCallback>();
 
     public List<SettingCallback> getCallbacks(Setting setting, boolean includeGlobal) {
         Preconditions.checkNotNull(setting, "setting may not be null");
