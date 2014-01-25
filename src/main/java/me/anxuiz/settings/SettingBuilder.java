@@ -64,6 +64,7 @@ public class SettingBuilder {
     }
 
     public @Nonnull SettingBuilder defaultValue(@Nonnull Object defaultValue) {
+        Preconditions.checkState(this.type != null, "setting must have type before default value can be set");
         Preconditions.checkNotNull(defaultValue, "default value");
         Preconditions.checkArgument(this.type != null && this.type.isInstance(defaultValue), "default value must be an instance of the type specified");
         this.defaultValue = defaultValue;
