@@ -75,7 +75,6 @@ public class SettingBuilder {
         Preconditions.checkState(this.name != null, "setting must have name");
         Preconditions.checkState(this.summary != null, "setting must have summary");
         Preconditions.checkState(this.type != null, "setting must have type");
-        Preconditions.checkState(this.defaultValue != null, "setting must have a default value");
 
         return new SimpleSetting(this.name, this.aliases, this.summary, this.description, this.type, this.defaultValue);
     }

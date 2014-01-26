@@ -17,14 +17,14 @@ public class SimpleSetting implements Setting {
     protected final @Nullable String description;
 
     protected final @Nonnull Type type;
-    protected final @Nonnull Object defaultValue;
+    protected final @Nullable Object defaultValue;
 
     public SimpleSetting(@Nonnull String name,
-            @Nonnull Set<String> aliases,
-            @Nonnull String summary,
-            @Nullable String description,
-            @Nonnull Type type,
-            @Nonnull Object defaultValue) {
+                         @Nonnull Set<String> aliases,
+                         @Nonnull String summary,
+                         @Nullable String description,
+                         @Nonnull Type type,
+                         @Nullable Object defaultValue) {
         this.name = name;
         this.aliases = ImmutableSortedSet.copyOf(aliases);
         this.summary = summary;
@@ -61,7 +61,12 @@ public class SimpleSetting implements Setting {
         return this.type;
     }
 
-    public @Nonnull Object getDefaultValue() {
+    @Override
+    public boolean hasDefaultValue() {
+        return this.defaultValue != null;
+    }
+
+    public @Nullable Object getDefaultValue() {
         return this.defaultValue;
     }
 
