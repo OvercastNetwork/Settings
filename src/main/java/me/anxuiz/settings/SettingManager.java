@@ -3,7 +3,7 @@ package me.anxuiz.settings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-
+import com.google.common.util.concurrent.ListenableFuture;
 
 public interface SettingManager {
 
@@ -53,18 +53,18 @@ public interface SettingManager {
      * Set the value for the given setting. Notification callbacks for the given setting are called,
      * as well as global notification callbacks.
      */
-    void setValue(@Nonnull Setting setting, @Nullable Object value);
+    ListenableFuture<Object> setValue(@Nonnull Setting setting, @Nullable Object value);
 
     /**
      * Set the value for the given setting. Notification callbacks for the given setting are called,
      * and global callbacks are also called if the last argument is true.
      */
-    void setValue(@Nonnull Setting setting, @Nullable Object value, boolean notifyGlobal);
+    ListenableFuture<Object> setValue(@Nonnull Setting setting, @Nullable Object value, boolean notifyGlobal);
 
     /**
      * Remove any value set for the given setting
      */
-    void deleteValue(@Nonnull Setting setting);
+    ListenableFuture<Object> deleteValue(@Nonnull Setting setting);
 
     /**
      * Get the SettingCallbackManager that will be used to send change notifications for this SettingManager

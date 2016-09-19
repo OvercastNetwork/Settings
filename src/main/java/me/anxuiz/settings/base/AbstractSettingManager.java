@@ -3,6 +3,7 @@ package me.anxuiz.settings.base;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingManager;
 import me.anxuiz.settings.util.TypeUtil;
@@ -70,7 +71,7 @@ public abstract class AbstractSettingManager implements SettingManager {
         }
     }
 
-    public void setValue(Setting setting, Object value) {
-        this.setValue(setting, value, true);
+    public ListenableFuture<Object> setValue(Setting setting, Object value) {
+        return this.setValue(setting, value, true);
     }
 }
