@@ -3,6 +3,7 @@ package me.anxuiz.settings;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface SettingCallbackManager {
     @Nonnull List<SettingCallback> getCallbacks(@Nonnull Setting setting);
@@ -29,7 +30,5 @@ public interface SettingCallbackManager {
 
     boolean removeGlobalCallback(@Nonnull SettingCallback callback);
 
-    int notifyChange(@Nonnull SettingManager manager, @Nonnull Setting setting, @Nonnull Object oldValue, @Nonnull Object newValue);
-
-    int notifyChange(@Nonnull SettingManager manager, @Nonnull Setting setting, @Nonnull Object oldValue, @Nonnull Object newValue, boolean includeGlobal);
+    void notifyChange(@Nonnull SettingManager manager, @Nonnull Setting setting, @Nullable Object oldValue, @Nullable Object newValue, @Nullable Object rawValue, boolean includeGlobal, Runnable changeCallback);
 }

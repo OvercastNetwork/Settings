@@ -3,6 +3,7 @@ package me.anxuiz.settings.base;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.base.Objects;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingManager;
 import me.anxuiz.settings.util.TypeUtil;
@@ -11,6 +12,8 @@ import com.google.common.base.Preconditions;
 
 public abstract class AbstractSettingManager implements SettingManager {
     public @Nullable abstract Object getRawValue(@Nonnull Setting setting);
+
+    protected abstract void setRawValue(Setting setting, @Nullable Object value);
 
     public boolean hasValue(Setting setting) {
         Preconditions.checkNotNull(setting);
@@ -70,7 +73,25 @@ public abstract class AbstractSettingManager implements SettingManager {
         }
     }
 
+    public void setValue(final Setting setting, final Object rawValue, boolean notifyGlobal) {
+        Preconditions.checkNotNull(setting, "setting");
+        Preconditions.checkArgument(rawValue == null || setting.getType().isInstance(rawValue), "value is not the correct type");
+
+        Object oldValue = this.getValue(setting);
+        Object newValue = rawValue != null ? rawValue : setting.getDefaultValue();
+
+        getCallbackManager().notifyChange(this, setting, oldValue, newValue, rawValue, notifyGlobal, new Runnable() {
+            public void run() {
+                setRawValue(setting, rawValue);
+            }
+        });
+    }
+
     public void setValue(Setting setting, Object value) {
         this.setValue(setting, value, true);
+    }
+
+    public void deleteValue(Setting setting) {
+        setValue(setting, null);
     }
 }

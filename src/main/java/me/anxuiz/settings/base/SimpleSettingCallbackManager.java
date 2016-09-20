@@ -1,9 +1,13 @@
 package me.anxuiz.settings.base;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
 import me.anxuiz.settings.Setting;
 import me.anxuiz.settings.SettingCallback;
 import me.anxuiz.settings.SettingManager;
@@ -83,28 +87,61 @@ public class SimpleSettingCallbackManager extends AbstractSettingCallbackManager
         return this.globalCallbacks.remove(callback);
     }
 
-    public int notifyChange(SettingManager manager, Setting setting, Object oldValue, Object newValue, boolean includeGlobal) {
+    public void notifyChange(SettingManager manager, Setting setting, Object oldValue, Object newValue, Object rawValue, boolean includeGlobal, final Runnable changeCallback) {
         Preconditions.checkNotNull(manager, "setting manager may not be null");
         Preconditions.checkNotNull(setting, "setting may not be null");
         Preconditions.checkNotNull(oldValue, "old value may not be null");
         Preconditions.checkNotNull(newValue, "new value may not be null");
 
-        // don't notify if the values are the same
-        if(oldValue.equals(newValue)) {
-            return 0;
-        }
-
-        List<SettingCallback> callbacks = this.getCallbacks(setting, includeGlobal); // get a copy of the callbacks
-        int notified = 0;
-        for(SettingCallback callback : callbacks) {
-            try {
-                callback.notifyChange(manager, setting, oldValue, newValue);
-                notified++;
-            } catch (Throwable t) {
-                t.printStackTrace();
+        // Global callbacks get the raw value
+        if(includeGlobal && !Objects.equal(oldValue, rawValue)) {
+            for(SettingCallback callback : ImmutableSet.copyOf(globalCallbacks)) {
+                callback.notifyChange(manager, setting, oldValue, rawValue);
             }
         }
 
-        return notified;
+        // Per-setting callbacks get the cooked value i.e. null replaced with default
+        if(!Objects.equal(oldValue, newValue)) {
+            dispatch(
+                manager, setting, oldValue, newValue,
+                Iterators.concat(
+                    ImmutableSet.copyOf(callbacks.get(setting)).iterator(),
+                    Iterators.singletonIterator(new SettingCallback() {
+                        public void notifyChange(SettingManager manager, Setting setting, Object oldValue, Object newValue) {
+                            changeCallback.run();
+                        }
+                    })
+                )
+            );
+        }
     }
+
+    private void dispatch(final SettingManager manager, final Setting setting, final Object oldValue, final Object newValue, final Iterator<SettingCallback> callbacks) {
+        if(!callbacks.hasNext()) return;
+
+        final Runnable old = YIELDER.get();
+
+        YIELDER.set(new Runnable() {
+            boolean yielded;
+            public void run() {
+                if(yielded) return;
+                yielded = true;
+                dispatch(manager, setting, oldValue, newValue, callbacks);
+            }
+        });
+
+        try {
+            callbacks.next().notifyChange(manager, setting, oldValue, newValue);
+            YIELDER.get().run(); // If callback didn't yield, do it ourselves
+        } finally {
+            YIELDER.set(old);
+        }
+    }
+
+    public static void yield() {
+        Preconditions.checkState(YIELDER.get() != null, "cannot call yield() outside of a change notification");
+        YIELDER.get().run();
+    }
+
+    private static final ThreadLocal<Runnable> YIELDER = new ThreadLocal<Runnable>();
 }
